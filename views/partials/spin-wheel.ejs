@@ -22,18 +22,20 @@
 // TODO: insert data
 var data = {"4046826467":["SUPER COOL CANDY ME","HERBAL CANDY SACHET"],"277787582":["PRE SCHOOL GOAT MILK FORMULA 900G","Baby Milk Powder"]}
 var promo_products = data["4046826467"]
-promo_products
+
+console.log(sample(promo_products))
   
 function rand(min, max) {
   return Math.random() * (max - min) + min;
 }
   
 function sample(array) {
-  array[Math.floor(Math.random() * array.length)]
+  index = Math.floor(Math.random() * array.length)
+  return array[index]
 }
 
 var color = ['#fbc','#f88','#fbc','#f88','#fbc','#f88', "#fbc", "#f67"];
-var label = ["Mystery discount", "Online promo", "¯\_(ツ)_/¯",  "Mystery discount", "200 ⭐", '50 ⭐', "100 ⭐", "Makeup service"];
+var label = ["Mystery discount", "Online promo", "😜",  "Mystery discount", "200 ⭐", '50 ⭐', "100 ⭐", "Makeup service"];
 var slices = color.length;
 var sliceDeg = 360/slices;
 var deg = rand(0, 360);
