@@ -7,3 +7,9 @@
 html {
   background-color: #00a0a0;
 }
+
+.container-centered {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}

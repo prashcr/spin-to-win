@@ -1,21 +1,45 @@
 <div id="wheel">
-  <canvas id="canvas" width="300" height="300"></canvas>
+  <canvas id="wheel-canvas" width="300" height="300"></canvas>
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Your Prize 🏆</p>
+        <button id="close-modal" class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <!-- Content ... -->
+      </section>
+      <footer class="modal-card-foot">
+<!--         <button class="button is-success">Save changes</button>
+        <button class="button">Cancel</button> -->
+      </footer>
+    </div>
+  </div>
 </div>
 
-<br>
-<button id="spin">Spin!</button>
 <script>
+// TODO: insert data
+var data = {"4046826467":["SUPER COOL CANDY ME","HERBAL CANDY SACHET"],"277787582":["PRE SCHOOL GOAT MILK FORMULA 900G","Baby Milk Powder"]}
+var promo_products = data["4046826467"]
+promo_products
+  
 function rand(min, max) {
   return Math.random() * (max - min) + min;
 }
+  
+function sample(array) {
+  array[Math.floor(Math.random() * array.length)]
+}
 
 var color = ['#fbc','#f88','#fbc','#f88','#fbc','#f88', "#fbc", "#f67"];
-var label = ['10', '200', '50', '100', '5', '500', '0', "jPOT"];
+var label = ["Mystery discount", "Online promo", "¯\_(ツ)_/¯",  "Mystery discount", "200 ⭐", '50 ⭐', "100 ⭐", "Makeup service"];
 var slices = color.length;
 var sliceDeg = 360/slices;
 var deg = rand(0, 360);
 var speed = 0;
 var slowDownRand = 0;
+var canvas = document.getElementById('wheel-canvas');
 var ctx = canvas.getContext('2d');
 var width = canvas.width; // size
 var center = width/2;      // center
@@ -42,11 +66,10 @@ function drawText(deg, text) {
   ctx.rotate(deg2rad(deg));
   ctx.textAlign = "right";
   ctx.fillStyle = "#fff";
-  ctx.font = 'bold 30px sans-serif';
+  ctx.font = 'bold 10px sans-serif';
   ctx.fillText(text, 130, 10);
   ctx.restore();
 }
-  
   
 
 function drawImg() {
@@ -56,6 +79,32 @@ function drawImg() {
     drawText(deg+sliceDeg/2, label[i]);
     deg += sliceDeg;
   }
+  ctx.fillStyle = '#800000'
+  ctx.fillRect(center - 2, center - width/2, 4, 12)
+}
+  
+function showPrize() {
+  var ai = Math.floor(((360 - deg - 90) % 360) / sliceDeg); // deg 2 Array Index
+  ai = (slices+ai)%slices; // Fix negative index
+  prize = label[ai]
+  if (prize == '¯\_(ツ)_/¯') {
+    prize = 'Have a great day, try again tomorrow!'
+  }
+  else if (prize == 'Online promo') {
+    prize = '$25 off coupon for online purchase' 
+  }
+  else if (prize == 'Makeup service') {
+    prize = 'Visit your local Watson\'s for a free make-up consultation!'
+  }
+  else if (prize == 'Mystery discount') {
+    prize = '20% off coupon for ' + sample(promo_products)
+  }
+  else {
+    prize = "You won: \n" + prize + '!'
+  }
+  document.querySelector('.modal-card-body').innerText = prize
+  document.querySelector('.modal').classList.add('is-active')
+  return
 }
 
 (function anim() {
@@ -64,33 +113,30 @@ function drawImg() {
 
   // Increment speed
   if(!isStopped && speed<3){
-    speed = speed+1 * 0.1;
+    speed = speed+2 * 0.1;
   }
   // Decrement Speed
   if(isStopped){
     if(!lock){
       lock = true;
-      slowDownRand = rand(0.994, 0.998);
+      slowDownRand = rand(0.988, 0.992);
     } 
     speed = speed>0.2 ? speed*=slowDownRand : 0;
   }
   // Stopped!
   if(lock && !speed && isStarted){
-    isStarted = false;
-    var ai = Math.floor(((360 - deg - 90) % 360) / sliceDeg); // deg 2 Array Index
-    ai = (slices+ai)%slices; // Fix negative index
-    return alert("You got:\n"+ label[ai] ); // Get Array Item from end Degree
+    return showPrize()
   }
 
   drawImg();
-  window.requestAnimationFrame( anim );
+  window.requestAnimationFrame(anim);
 }());
 
-document.getElementById("spin").addEventListener("mousedown", function(){
+document.getElementById("wheel-canvas").addEventListener("click", function(){
   isStopped = false;
   isStarted = true;
   setTimeout(function() {
     isStopped = true;
-  }, 1000 * Math.random(2, 5))
+  }, 1000 * Math.random(9,10))
 }, false);
 </script>
