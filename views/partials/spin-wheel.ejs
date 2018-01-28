@@ -5,7 +5,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Your Prize 🏆</p>
-        <button id="close-modal" class="delete" aria-label="close"></button>
+        <button id="close-modal" class="delete" aria-label="close" onclick="location.href=location.href"></button>
       </header>
       <section class="modal-card-body">
         <!-- Content ... -->
@@ -19,9 +19,11 @@
 </div>
 
 <script>
-// TODO: insert data
-var data = {"4046826467":["SUPER COOL CANDY ME","HERBAL CANDY SACHET"],"277787582":["PRE SCHOOL GOAT MILK FORMULA 900G","Baby Milk Powder"]}
-var promo_products = data["4046826467"]
+// data for 1 customer, ID: 3393923744
+productA = "INSTANT NDL KING (NO SACHET)"
+productB = "COLGATE MAXFRESH M TB 3S"
+productC = "360 CHARCOAL GOLD 2S"
+var promo_products = [productB, productC]
 
 console.log(sample(promo_products))
   
@@ -35,7 +37,7 @@ function sample(array) {
 }
 
 var color = ['#fbc','#f88','#fbc','#f88','#fbc','#f88', "#fbc", "#f67"];
-var label = ["Mystery discount", "Online promo", "😜",  "Mystery discount", "200 ⭐", '50 ⭐', "100 ⭐", "Makeup service"];
+var label = ["Mystery discount", "Online promo", "Mystery discount",  "200 ⭐", "Mystery discount", '50 ⭐', "Oops", "Makeup service"];
 var slices = color.length;
 var sliceDeg = 360/slices;
 var deg = rand(0, 360);
@@ -89,7 +91,7 @@ function showPrize() {
   var ai = Math.floor(((360 - deg - 90) % 360) / sliceDeg); // deg 2 Array Index
   ai = (slices+ai)%slices; // Fix negative index
   prize = label[ai]
-  if (prize == '¯\_(ツ)_/¯') {
+  if (prize == 'Oops') {
     prize = 'Have a great day, try again tomorrow!'
   }
   else if (prize == 'Online promo') {
